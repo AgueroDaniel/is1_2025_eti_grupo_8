@@ -8,46 +8,19 @@ public class Persona extends User {
 
     // 🔹 Getter y Setter de DNI
     public Integer getDni() {
-        return getInteger("dni");
+        return getInteger("dni");  // Obtiene el valor de la columna 'dni'
     }
 
     public void setDni(Integer dni) {
-        set("dni", dni);
+        set("dni", dni); // establece el valor de dni para la columna dni
     }
 
-    // 🔹 Getter y Setter de Teléfono
-    public String getTelefono() {
-        return getString("telefono");
+    public String getSurname(){
+        return getString("surname"); //retorna el valor de la columna apellido
     }
 
-    public void setTelefono(String telefono) {
-        set("telefono", telefono);
+    public void setSurname(String surname){
+        set ("surname", surname); //le asigna apellido a la columna apellido
     }
 
-    // 🔹 Getter y Setter de Dirección
-    public String getDireccion() {
-        return getString("direccion");
-    }
-
-    public void setDireccion(String direccion) {
-        set("direccion", direccion);
-    }
-
-    // 🔹 Getter y Setter de Edad
-    public Integer getEdad() {
-        return getInteger("edad");
-    }
-
-    public void setEdad(Integer edad) {
-        set("edad", edad);
-    }
-
-    // 🔹 Getter y Setter de Fecha de Nacimiento
-    public String getFechaNacimiento() {
-        return getString("fecha_nacimiento");
-    }
-
-    public void setFechaNacimiento(String fechaNacimiento) {
-        set("fecha_nacimiento", fechaNacimiento);
-    }
 }
