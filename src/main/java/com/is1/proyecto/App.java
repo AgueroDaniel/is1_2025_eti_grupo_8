@@ -20,6 +20,8 @@ import java.util.Map; // Interfaz Map, utilizada para Map.of() o HashMap.
 import com.is1.proyecto.config.DBConfigSingleton; // Clase Singleton para la configuración de la base de datos.
 import com.is1.proyecto.models.User; // Modelo de ActiveJDBC que representa la tabla 'users'.
 
+import com.is1.proyecto.models.Persona; // Modelo de ActiveJDBC que representa la tabla 'persona'.
+import com.is1.proyecto.models.Docente; // Modelo de ActiveJDBC que representa la tabla 'docente'.
 
 /**
  * Clase principal de la aplicación Spark.
