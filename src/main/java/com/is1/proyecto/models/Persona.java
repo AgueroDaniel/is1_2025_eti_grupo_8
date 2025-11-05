@@ -14,6 +14,15 @@ public class Persona extends User {
     public void setDni(Integer dni) {
         set("dni", dni); // establece el valor de dni para la columna dni
     }
+    
+    // 🔹 Getter y Setter de nombre
+    public Integer getRealName() {
+        return getString("realName");  // Obtiene el valor de la columna 'realName'
+    }
+
+    public void setDni(String realName) {
+        set("realName", realName); // establece el valor de dni para la columna realName
+    }
 
     public String getSurname(){
         return getString("surname"); //retorna el valor de la columna apellido
