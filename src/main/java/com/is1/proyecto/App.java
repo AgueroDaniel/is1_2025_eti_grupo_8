@@ -21,7 +21,7 @@ import com.is1.proyecto.config.DBConfigSingleton; // Clase Singleton para la con
 import com.is1.proyecto.models.User; // Modelo de ActiveJDBC que representa la tabla 'users'.
 // Importaciones de clases creadas para la historia
 import com.is1.proyecto.models.Persona; // Modelo de ActiveJDBC que representa la tabla 'persona'.
-import com.is1.proyecto.models.Profesor; // Modelo de ActiveJDBC que representa la tabla 'docente'.
+import com.is1.proyecto.models.Docente; // Modelo de ActiveJDBC que representa la tabla 'docente'.
 
 
 /**

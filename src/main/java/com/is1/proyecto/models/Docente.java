@@ -1,8 +1,8 @@
 package com.is1.proyecto.models;
+import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
 @Table ("docente") //relaciona esta clase con la bdd
-
 public class Docente extends Persona{
 
     public String getDepartament(){
