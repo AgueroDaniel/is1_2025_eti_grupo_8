@@ -18,6 +18,7 @@ CREATE TABLE docente (
     dni INTEGER PRIMARY KEY,
     departament TEXT NOT NULL,
     correo TEXT NOT NULL,
+    curso TEXT NOT NULL,
     FOREIGN KEY (dni) REFERENCES persona(dni)
      ON DELETE CASCADE
      ON UPDATE CASCADE

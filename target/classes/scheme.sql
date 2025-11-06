@@ -9,19 +9,17 @@ CREATE TABLE users (
 );
 
 CREATE TABLE persona (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    dni TEXT UNIQUE,
-    surname TEXT NOT NULL,
-    FOREIGN KEY (id) REFERENCES users(id)
-     ON DELETE CASCADE
-     ON UPDATE CASCADE
+    dni INTEGER PRIMARY KEY,
+    realName TEXT NOT NULL,
+    surname TEXT NOT NULL
 );
 
 CREATE TABLE docente (
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
+    dni INTEGER PRIMARY KEY,
     departament TEXT NOT NULL,
     correo TEXT NOT NULL,
-    FOREIGN KEY (id) REFERENCES persona(id)
+    curso TEXT NOT NULL,
+    FOREIGN KEY (dni) REFERENCES persona(dni)
      ON DELETE CASCADE
      ON UPDATE CASCADE
 );

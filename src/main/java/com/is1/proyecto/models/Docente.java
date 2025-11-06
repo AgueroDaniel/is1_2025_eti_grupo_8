@@ -20,4 +20,12 @@ public class Docente extends Persona{
     public void setCorreo(String correo){
         set("correo", correo); //le asigna departamento a la columna correo
     }
+
+    public String getCurso(){
+        return getString("Curso"); //retorna el valor de la columna correo
+    }
+
+    public void setCurso(String curso){
+        set("curso", curso); //le asigna departamento a la columna correo
+    } 
 }
