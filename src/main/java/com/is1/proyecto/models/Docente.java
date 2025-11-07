@@ -3,7 +3,15 @@ import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
 @Table ("docente") //relaciona esta clase con la bdd
-public class Docente extends Persona{
+public class Docente extends Model{
+
+    public Integer getDni() {
+        return getInteger("dni");  // Obtiene el valor de la columna 'dni'
+    }
+    
+    public void setDni(Integer dni) {
+        set("dni", dni); // establece el valor de dni para la columna dni
+    }
 
     public String getDepartament(){
         return getString("departament"); //retorna el valor de la columna departamento
@@ -14,18 +22,10 @@ public class Docente extends Persona{
     }
 
     public String getCorreo(){
-        return getString("Correo"); //retorna el valor de la columna correo
+        return getString("correo"); //retorna el valor de la columna correo
     }
 
     public void setCorreo(String correo){
-        set("correo", correo); //le asigna departamento a la columna correo
+        set("correo", correo); //le asigna correo a la columna correo
     }
-
-    public String getCurso(){
-        return getString("Curso"); //retorna el valor de la columna correo
-    }
-
-    public void setCurso(String curso){
-        set("curso", curso); //le asigna departamento a la columna correo
-    } 
 }

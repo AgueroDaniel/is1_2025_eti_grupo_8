@@ -6,6 +6,7 @@ import static spark.Spark.*; // Importa los métodos estáticos principales de S
 
 // Importaciones específicas para ActiveJDBC (ORM para la base de datos)
 import org.javalite.activejdbc.Base; // Clase central de ActiveJDBC para gestionar la conexión a la base de datos.
+import org.javalite.activejdbc.Model;
 import org.mindrot.jbcrypt.BCrypt; // Utilidad para hashear y verificar contraseñas de forma segura.
 
 // Importaciones de Spark para renderizado de plantillas
@@ -19,9 +20,8 @@ import java.util.Map; // Interfaz Map, utilizada para Map.of() o HashMap.
 // Importaciones de clases del proyecto
 import com.is1.proyecto.config.DBConfigSingleton; // Clase Singleton para la configuración de la base de datos.
 import com.is1.proyecto.models.User; // Modelo de ActiveJDBC que representa la tabla 'users'.
-// Importaciones de clases creadas para la historia
-import com.is1.proyecto.models.Persona; // Modelo de ActiveJDBC que representa la tabla 'persona'.
-import com.is1.proyecto.models.Docente; // Modelo de ActiveJDBC que representa la tabla 'docente'.
+import com.is1.proyecto.models.Docente;
+import com.is1.proyecto.models.Persona;
 
 
 /**
@@ -49,10 +49,11 @@ public class App {
         before((req, res) -> {
             try {
                 // Abre una conexión a la base de datos utilizando las credenciales del singleton.
+                if(!Base.hasConnection()){
                 Base.open(dbConfig.getDriver(), dbConfig.getDbUrl(), dbConfig.getUser(), dbConfig.getPass());
                 System.out.println(req.url());
-
-            } catch (Exception e) {
+                }
+            }catch (Exception e) {
                 // Si ocurre un error al abrir la conexión, se registra y se detiene la solicitud
                 // con un código de estado 500 (Internal Server Error) y un mensaje JSON.
                 System.err.println("Error al abrir conexión con ActiveJDBC: " + e.getMessage());
@@ -65,7 +66,9 @@ public class App {
         after((req, res) -> {
             try {
                 // Cierra la conexión a la base de datos para liberar recursos.
-                Base.close();
+                if(Base.hasConnection()){
+                     Base.close();
+                }
             } catch (Exception e) {
                 // Si ocurre un error al cerrar la conexión, se registra.
                 System.err.println("Error al cerrar conexión con ActiveJDBC: " + e.getMessage());
@@ -294,7 +297,98 @@ public class App {
                 res.status(500); // Internal Server Error.
                 return objectMapper.writeValueAsString(Map.of("error", "Error interno al registrar usuario: " + e.getMessage()));
             }
+
+            
+        });
+        get("/get_docente", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            String success = req.queryParams("message");
+            String error = req.queryParams("error");
+            if(success != null && !success.isEmpty()){
+                model.put("successMessage", success);
+            }
+            if(error != null && !error.isEmpty()){
+                model.put("errorMessage", error);
+            }
+            return new ModelAndView(model, "get_docente.mustache");
+        }, new MustacheTemplateEngine());
+
+        post("/get_docente", (req, res) -> {
+            try {
+                String dni = req.queryParams("dni");
+                String realName = req.queryParams("realName");
+                String surname = req.queryParams("surname");
+                String departament = req.queryParams("departament");
+                String correo = req.queryParams("correo");
+
+                if(dni == null || dni.isEmpty() || realName == null || realName.isEmpty() || surname == null || surname.isEmpty() || departament == null || departament.isEmpty() ||correo == null || correo.isEmpty()) {
+                    res.redirect("/get_docente?error=Todos los campos son obligatorios.");
+                    return null;
+                }
+                Integer dniD = Integer.valueOf(dni);
+                // Verificmo si ya existe un docente con ese dni
+                Persona persona = Persona.findFirst("dni = ?", dniD);
+                if(persona == null){
+                    persona = new Persona();
+                    persona.setDni(dniD);
+                    persona.setRealName(realName);
+                    persona.setSurname(surname);
+                    persona.saveIt();
+                }else{
+                    //si la persona ya existe, actualizamos su nombre y apellido
+                    persona.setRealName(realName);
+                    persona.setSurname(surname);
+                    persona.saveIt();
+                }
+
+                //ahora  creamos el docente
+                //lo mismo con el docente verifico si existe
+                Docente docente = Docente.findFirst("dni = ?", dniD);
+                if(docente == null){
+                    docente = new Docente();
+                    docente.setDni(dniD);
+                    docente.setDepartament(departament);
+                    docente.setCorreo(correo);
+                    docente.saveIt();
+                }else{
+                    //si el docente ya existe, actualizamos su departamento y correo
+                    docente.setDepartament(departament);
+                    docente.setCorreo(correo);
+                    docente.saveIt();
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                res.redirect("/get_docente?error=Error al registrar el docente");
+            }
+            res.redirect("/post_docente?message=Docente cargado exitosamente");
+            return null;
         });
 
+        //ahora mostrar los docentes
+        get("/post_docente", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            String success = req.queryParams("message");
+            if(success != null && !success.isEmpty()){
+                model.put("successMessage", success);
+            }
+            var docentes = Docente.findAll(); // Obtiene todos los registros de la tabla 'docente'.
+            java.util.List<Map<String, Object>> docenteList = new java.util.ArrayList<>();
+            for (Model m : docentes) {
+                Docente docente = (Docente) m; // casteo al modelo Docente
+                Integer dni = docente.getInteger("dni"); // obtiene el dni del docente
+                Persona persona = Persona.findFirst("dni = ?", dni); // busca la persona usando el mismo dni
+                Map<String, Object> docenteData = new HashMap<>();
+                docenteData.put("dni", persona.getDni());
+                docenteData.put("nombre", persona.getRealName());
+                docenteData.put("apellido", persona.getSurname());
+                docenteData.put("departament", docente.getDepartament());
+                docenteData.put("correo", docente.getCorreo());
+                docenteList.add(docenteData);
+            }
+            model.put("docentes", docenteList);
+            return new ModelAndView(model, "post_docente.mustache");
+        }, new MustacheTemplateEngine());
+
+        
     } // Fin del método main
 } // Fin de la clase App
