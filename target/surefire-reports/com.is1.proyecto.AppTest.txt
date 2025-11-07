@@ -1,4 +1,8 @@
 -------------------------------------------------------------------------------
 Test set: com.is1.proyecto.AppTest
 -------------------------------------------------------------------------------
+<<<<<<< HEAD
 Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.044 s -- in com.is1.proyecto.AppTest
+=======
+Tests run: 1, Failures: 0, Errors: 0, Skipped: 0, Time elapsed: 0.047 s -- in com.is1.proyecto.AppTest
+>>>>>>> c1368f1 (terminado, no le cambien el rosaaa)

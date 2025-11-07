@@ -1,3 +1,11 @@
+<<<<<<< HEAD
 com/is1/proyecto/App.class
 com/is1/proyecto/models/User.class
 com/is1/proyecto/config/DBConfigSingleton.class
+=======
+com\is1\proyecto\models\Persona.class
+com\is1\proyecto\App.class
+com\is1\proyecto\models\User.class
+com\is1\proyecto\config\DBConfigSingleton.class
+com\is1\proyecto\models\Docente.class
+>>>>>>> c1368f1 (terminado, no le cambien el rosaaa)
