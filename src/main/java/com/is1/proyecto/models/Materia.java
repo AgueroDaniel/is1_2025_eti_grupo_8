@@ -20,3 +20,4 @@ public class Materia extends Model{
     public void setDepartament(String nombre){
         set("departament", nombre); //le asigna nombre a la columna nombre
     }
+}
