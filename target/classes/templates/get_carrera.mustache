@@ -17,34 +17,19 @@
     <div class="bg-red-100 text-red-700 p-2 rounded mb-4">{{errorMessage}}</div>
     {{/errorMessage}}
 
-    <form action="/get_docente" method="post" class="space-y-4">
+    <form action="/get_carrera" method="post" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium mb-1">DNI:</label>
-        <input type="number" name="dni" required class="w-full p-2 border rounded" />
+        <label class="block text-sm font-medium mb-1">ID carrera:</label>
+        <input type="number" name="id_carrera" required class="w-full p-2 border rounded" />
       </div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Nombre:</label>
-        <input type="text" name="realName" required class="w-full p-2 border rounded" />
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium mb-1">Apellido:</label>
-        <input type="text" name="surname" required class="w-full p-2 border rounded" />
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium mb-1">Departamento:</label>
-        <input type="text" name="departament" required class="w-full p-2 border rounded" />
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium mb-1">Correo:</label>
-        <input type="email" name="correo" required class="w-full p-2 border rounded" />
+        <input type="text" name="nombre" required class="w-full p-2 border rounded" />
       </div>
 
       <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">Guardar Docente</button>
-
+      
       <div class="text-center mt-4">
         <a href="/dashboard" class="text-pink-600 hover:underline">Volver al Panel de Control</a>
       </div>
