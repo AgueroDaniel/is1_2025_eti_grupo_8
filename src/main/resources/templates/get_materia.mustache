@@ -17,31 +17,29 @@
     <div class="bg-red-100 text-red-700 p-2 rounded mb-4">{{errorMessage}}</div>
     {{/errorMessage}}
 
-    <form action="/get_docente" method="post" class="space-y-4">
+    <form action="/get_materia" method="post" class="space-y-4">
       <div>
-        <label class="block text-sm font-medium mb-1">DNI:</label>
-        <input type="number" name="dni" required class="w-full p-2 border rounded" />
+        <label class="block text-sm font-medium mb-1">Id materia:</label>
+        <input type="number" name="id_materia" required class="w-full p-2 border rounded" />
       </div>
 
       <div>
         <label class="block text-sm font-medium mb-1">Nombre:</label>
-        <input type="text" name="realName" required class="w-full p-2 border rounded" />
+        <input type="text" name="nombre" required class="w-full p-2 border rounded" />
       </div>
 
-      <div>
-        <label class="block text-sm font-medium mb-1">Apellido:</label>
-        <input type="text" name="surname" required class="w-full p-2 border rounded" />
-      </div>
+    <div>
+      <label class="block text-sm font-medium mb-1">Carrera:</label>
+      <select name="id_materia" required class="w-full p-2 border rounded">
+        {{#carrera}}
+          <option value="{{id_carrera}}">{{nombre}}</option>
+        {{/carrera}}
+      </select>
+    </div>
 
-      <div>
-        <label class="block text-sm font-medium mb-1">Departamento:</label>
-        <input type="text" name="departament" required class="w-full p-2 border rounded" />
-      </div>
-
-      <div>
-        <label class="block text-sm font-medium mb-1">Correo:</label>
-        <input type="email" name="correo" required class="w-full p-2 border rounded" />
-      </div>
+    {{^carrera}}
+      <p class="text-gray-600">No hay carreras cargadas.</p>
+    {{/carrera}}
 
       <button type="submit" class="w-full bg-purple-600 text-white py-2 rounded hover:bg-purple-700">Guardar Docente</button>
 
@@ -53,4 +51,5 @@
 
 </body>
 </html>
+
 
