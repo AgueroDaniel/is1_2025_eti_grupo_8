@@ -21,26 +21,12 @@ CREATE TABLE docente (
      ON DELETE CASCADE
      ON UPDATE CASCADE
 );
-CREATE TABLE carrera (
-    id_carrera INTEGER PRIMARY KEY,
-    nombre TEXT NOT NULL
-);
+
 CREATE TABLE materia (
     id_materia INTEGER PRIMARY KEY,
     nombre TEXT NOT NULL,
     id_carrera INTEGER,
     FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera)
      ON DELETE SET NULL
-     ON UPDATE CASCADE
-);
-CREATE TABLE dicta (
-    dni_docente INTEGER,
-    id_materia INTEGER,
-    PRIMARY KEY (dni_docente, id_materia),
-    FOREIGN KEY (dni_docente) REFERENCES docente(dni)
-     ON DELETE CASCADE
-     ON UPDATE CASCADE,
-    FOREIGN KEY (id_materia) REFERENCES materia(id_materia)
-     ON DELETE CASCADE
      ON UPDATE CASCADE
 );
