@@ -1,0 +1,23 @@
+        //recuperar materias
+        get("/post_materia", (req, res) -> {
+            Map<String, Object> model = new HashMap<>();
+            String success = req.queryParams("message");
+            if(success != null && !success.isEmpty()){
+                model.put("successMessage", success);
+            }
+            var materia = Materia.findAll(); // Obtiene todos los registros de la tabla 'materia'.
+            java.util.List<Map<String, Object>> materiaList = new java.util.ArrayList<>();
+            for (Model m : materia) {
+                Materia materiaNOW = (Materia) m; // casteo al modelo materia
+                Integer id_materiaNOW = materiaNOW.getInteger("id_materia"); // obtiene el id de la materia
+                Carrera carrera = Carrera.findFirst("id_materia = ?", id_materiaNOW); // busca la persona usando el mismo dni
+                Map<String, Object> materiaData = new HashMap<>();
+                materiaData.put("id_materia", materiaNOW.getIdMateria());
+                materiaData.put("nombre", materiaNOW.getNombre());
+                materiaData.put("id_carrera", carrera.getIdCarrera());
+                materiaList.add(materiaData);
+            }
+            model.put("materia", materiaList);
+            return new ModelAndView(model, "agregar_materia.mustache");
+        }, new MustacheTemplateEngine());
+

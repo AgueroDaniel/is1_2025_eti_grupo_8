@@ -25,8 +25,9 @@ CREATE TABLE docente (
 CREATE TABLE materia (
     id_materia INTEGER PRIMARY KEY,
     nombre TEXT NOT NULL,
+    id_profesor INTEGER,
     id_carrera INTEGER,
-    FOREIGN KEY (id_carrera) REFERENCES carrera(id_carrera)
-     ON DELETE SET NULL
+    FOREIGN KEY (id_profesor) REFERENCES docente(dni)
+     ON DELETE CASCADE
      ON UPDATE CASCADE
 );

@@ -16,6 +16,14 @@
             <p class="font-semibold">DNI: {{dni}}</p>
             <p>{{realName}} {{surname}}</p>
             <p class="text-sm text-gray-600">Departamento: {{departament}} — Correo: {{correo}}</p>
+              <ul>
+            {{#materias}}
+              <li>{{id_materia}} - {{nombre}}</li>
+            {{/materias}}
+            {{^materias}}
+              <li>No esta dando ninguna materia.</li>
+            {{/materias}}
+              </ul>
           </div>
         </div>
       </div>

@@ -5,8 +5,16 @@ import org.javalite.activejdbc.annotations.Table;
 @Table ("materia") //relaciona esta clase con la bdd
 public class Materia extends Model{
 
+    public Integer getIdProfesor() {
+        return getInteger("id_profesor");  // Obtiene el valor de la columna 'id_materia'
+    }
+    
+    public void setIdProfesor(Integer id_profesor) {
+        set("id_profesor", id_profesor); // establece el valor de id de materia para la columna id_materia
+    }
+
     public Integer getIdMateria() {
-        return getInteger("id de materia");  // Obtiene el valor de la columna 'id_materia'
+        return getInteger("id_materia");  // Obtiene el valor de la columna 'id_materia'
     }
     
     public void setIdMateria(Integer id_materia) {
@@ -22,7 +30,7 @@ public class Materia extends Model{
     }
 
     public Integer getIdCarrera(){
-        return getInteger("Nombre"); //retorna el valor de la columna nombre
+        return getInteger("id_carrera"); //retorna el valor de la columna nombre
     }
 
     public void setIdCarrera(Integer id_carrera){

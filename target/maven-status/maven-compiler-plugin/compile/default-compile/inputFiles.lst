@@ -1,8 +1,6 @@
-/home/dani/estudio/ingenieria de software/nuevo/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/Materia.java
-/home/dani/estudio/ingenieria de software/nuevo/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/App.java
-/home/dani/estudio/ingenieria de software/nuevo/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/Carrera.java
-/home/dani/estudio/ingenieria de software/nuevo/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/config/DBConfigSingleton.java
-/home/dani/estudio/ingenieria de software/nuevo/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/Dicta.java
-/home/dani/estudio/ingenieria de software/nuevo/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/Persona.java
-/home/dani/estudio/ingenieria de software/nuevo/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/Docente.java
-/home/dani/estudio/ingenieria de software/nuevo/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/User.java
+/home/dani/estudio/ingenieria de software/18/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/config/DBConfigSingleton.java
+/home/dani/estudio/ingenieria de software/18/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/App.java
+/home/dani/estudio/ingenieria de software/18/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/User.java
+/home/dani/estudio/ingenieria de software/18/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/Materia.java
+/home/dani/estudio/ingenieria de software/18/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/Docente.java
+/home/dani/estudio/ingenieria de software/18/is1_2025_eti_grupo_8/src/main/java/com/is1/proyecto/models/Persona.java
