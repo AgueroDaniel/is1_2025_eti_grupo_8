@@ -331,7 +331,7 @@ public class App {
                 Integer dniD = Integer.valueOf(dni);
 
 
-                // Verificmo si ya existe una persoma con ese dni
+                // Verificmo si ya existe una persoma con ese dni y correo
                 Persona persona = Persona.findFirst("dni = ?", dniD);
                 if(persona == null){
                     persona = new Persona();
@@ -342,9 +342,9 @@ public class App {
                 }
 
                 //ahora  creamos el docente
-                //lo mismo con el docente verifico si existe 
+                //lo mismo con el docente verifico si existe y si el correo esta registrado
                 Docente docente = Docente.findFirst("dni = ?", dniD);
-                if(docente == null){
+                if(docente == null ){
                     docente = new Docente();
                     docente.setDni(dniD);
                     docente.setDepartament(departament);
