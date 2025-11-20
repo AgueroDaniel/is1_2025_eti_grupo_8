@@ -1,6 +1,9 @@
 
  -- Elimina la tabla 'users' si ya existe para asegurar un inicio limpio
 DROP TABLE IF EXISTS users;
+DROP TABLE IF EXISTS materia;
+DROP TABLE IF EXISTS docente;
+DROP TABLE IF EXISTS persona;
 
  -- Crea la tabla 'users' con los campos originales, adaptados para SQLite
 CREATE TABLE users (
@@ -18,6 +21,13 @@ CREATE TABLE docente (
     departament TEXT NOT NULL,
     correo TEXT NOT NULL,
     FOREIGN KEY (dni) REFERENCES persona(dni)
+     ON DELETE CASCADE
+     ON UPDATE CASCADE
+);
+CREATE TABLE materia (
+    encargado INTEGER PRIMARY KEY,
+    nombreMateria TEXT NOT NULL,
+    FOREIGN KEY (encargado) REFERENCES docente(dni)
      ON DELETE CASCADE
      ON UPDATE CASCADE
 );

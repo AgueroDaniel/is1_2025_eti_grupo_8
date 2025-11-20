@@ -2,7 +2,7 @@ package com.is1.proyecto.models;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
-@Table("persona") // si tu tabla se llama así; si no, cámbialo por el nombre correcto
+@Table("persona") //relaciona esta clase con la bdd
 public class Persona extends Model {
 
     public Integer getDni() {

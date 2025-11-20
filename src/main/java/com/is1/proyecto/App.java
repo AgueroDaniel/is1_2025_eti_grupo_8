@@ -22,6 +22,7 @@ import com.is1.proyecto.config.DBConfigSingleton; // Clase Singleton para la con
 import com.is1.proyecto.models.User; // Modelo de ActiveJDBC que representa la tabla 'users'.
 import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
+import com.is1.proyecto.models.Materia;
 
 
 /**
@@ -318,15 +319,18 @@ public class App {
                 String dni = req.queryParams("dni");
                 String realName = req.queryParams("realName");
                 String surname = req.queryParams("surname");
+                String nombreMateria = req.queryParams("nombreMateria");
                 String departament = req.queryParams("departament");
                 String correo = req.queryParams("correo");
 
-                if(dni == null || dni.isEmpty() || realName == null || realName.isEmpty() || surname == null || surname.isEmpty() || departament == null || departament.isEmpty() ||correo == null || correo.isEmpty()) {
+                if(dni == null || dni.isEmpty() || realName == null || realName.isEmpty() || surname == null || surname.isEmpty() || nombreMateria == null || nombreMateria.isEmpty() ||departament == null || departament.isEmpty() ||correo == null || correo.isEmpty()) {
                     res.redirect("/get_docente?error=Todos los campos son obligatorios.");
                     return null;
                 }
                 Integer dniD = Integer.valueOf(dni);
-                // Verificmo si ya existe un docente con ese dni
+
+
+                // Verificmo si ya existe una persoma con ese dni
                 Persona persona = Persona.findFirst("dni = ?", dniD);
                 if(persona == null){
                     persona = new Persona();
@@ -334,15 +338,10 @@ public class App {
                     persona.setRealName(realName);
                     persona.setSurname(surname);
                     persona.saveIt();
-                }else{
-                    //si la persona ya existe, actualizamos su nombre y apellido
-                    persona.setRealName(realName);
-                    persona.setSurname(surname);
-                    persona.saveIt();
                 }
 
                 //ahora  creamos el docente
-                //lo mismo con el docente verifico si existe
+                //lo mismo con el docente verifico si existe 
                 Docente docente = Docente.findFirst("dni = ?", dniD);
                 if(docente == null){
                     docente = new Docente();
@@ -350,12 +349,17 @@ public class App {
                     docente.setDepartament(departament);
                     docente.setCorreo(correo);
                     docente.saveIt();
-                }else{
-                    //si el docente ya existe, actualizamos su departamento y correo
-                    docente.setDepartament(departament);
-                    docente.setCorreo(correo);
-                    docente.saveIt();
                 }
+
+                //ahora creamos la materia
+                Materia materia = Materia.findFirst("encargado = ?", dniD);
+                if(materia == null){
+                    materia = new Materia();
+                    materia.setEncargado(dniD);
+                }
+                materia.setNombreMateria(nombreMateria);
+                materia.saveIt();
+
             } catch (Exception e) {
                 e.printStackTrace();
                 res.redirect("/get_docente?error=Error al registrar el docente");
@@ -372,15 +376,19 @@ public class App {
                 model.put("successMessage", success);
             }
             var docentes = Docente.findAll(); // Obtiene todos los registros de la tabla 'docente'.
+
             java.util.List<Map<String, Object>> docenteList = new java.util.ArrayList<>();
+
             for (Model m : docentes) {
                 Docente docente = (Docente) m; // casteo al modelo Docente
                 Integer dni = docente.getInteger("dni"); // obtiene el dni del docente
                 Persona persona = Persona.findFirst("dni = ?", dni); // busca la persona usando el mismo dni
+                Materia materia = Materia.findFirst("encargado = ?", dni); // busca la materia usando el mismo dni
                 Map<String, Object> docenteData = new HashMap<>();
                 docenteData.put("dni", persona.getDni());
                 docenteData.put("nombre", persona.getRealName());
                 docenteData.put("apellido", persona.getSurname());
+                docenteData.put("nombreMateria", materia.getNombreMateria());
                 docenteData.put("departament", docente.getDepartament());
                 docenteData.put("correo", docente.getCorreo());
                 docenteList.add(docenteData);
