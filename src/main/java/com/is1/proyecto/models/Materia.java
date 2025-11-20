@@ -17,4 +17,10 @@ public class Materia extends Model {
     public void setNombreMateria(String nombreMateria){
         set("nombreMateria", nombreMateria); //le asigna nombreMateria a la columna nombreMateria
     }
+    public Integer getIdCarrera(){
+        return getInteger("id_carrera"); //retorna el valor de la columna id_carrera
+    }
+    public void setIdCarrera(Integer id_carrera){
+        set("id_carrera", id_carrera); //le asigna idCarrera a la columna id_carrera
+    }
 }

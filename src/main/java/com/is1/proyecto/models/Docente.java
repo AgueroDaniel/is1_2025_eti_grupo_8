@@ -3,7 +3,7 @@ import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
 
 @Table ("docente") //relaciona esta clase con la bdd
-public class Docente extends Model{
+public class Docente extends Model {
 
     public Integer getDni() {
         return getInteger("dni");  // Obtiene el valor de la columna 'dni'

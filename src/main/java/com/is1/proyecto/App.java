@@ -320,10 +320,11 @@ public class App {
                 String realName = req.queryParams("realName");
                 String surname = req.queryParams("surname");
                 String nombreMateria = req.queryParams("nombreMateria");
+                String id_carrera = req.queryParams("id_carrera");
                 String departament = req.queryParams("departament");
                 String correo = req.queryParams("correo");
 
-                if(dni == null || dni.isEmpty() || realName == null || realName.isEmpty() || surname == null || surname.isEmpty() || nombreMateria == null || nombreMateria.isEmpty() ||departament == null || departament.isEmpty() ||correo == null || correo.isEmpty()) {
+                if(dni == null || dni.isEmpty() || realName == null || realName.isEmpty() || surname == null || surname.isEmpty() || nombreMateria == null || nombreMateria.isEmpty() || id_carrera == null || id_carrera.isEmpty() ||departament == null || departament.isEmpty() ||correo == null || correo.isEmpty()) {
                     res.redirect("/get_docente?error=Todos los campos son obligatorios.");
                     return null;
                 }
@@ -358,6 +359,7 @@ public class App {
                     materia.setEncargado(dniD);
                 }
                 materia.setNombreMateria(nombreMateria);
+                materia.setIdCarrera(Integer.valueOf(id_carrera));
                 materia.saveIt();
 
             } catch (Exception e) {
@@ -389,6 +391,7 @@ public class App {
                 docenteData.put("nombre", persona.getRealName());
                 docenteData.put("apellido", persona.getSurname());
                 docenteData.put("nombreMateria", materia.getNombreMateria());
+                docenteData.put("id_carrera", materia.getIdCarrera());
                 docenteData.put("departament", docente.getDepartament());
                 docenteData.put("correo", docente.getCorreo());
                 docenteList.add(docenteData);

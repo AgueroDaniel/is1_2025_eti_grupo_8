@@ -27,6 +27,7 @@ CREATE TABLE docente (
 CREATE TABLE materia (
     encargado INTEGER PRIMARY KEY,
     nombreMateria TEXT NOT NULL,
+    id_carrera INTEGER,
     FOREIGN KEY (encargado) REFERENCES docente(dni)
      ON DELETE CASCADE
      ON UPDATE CASCADE
