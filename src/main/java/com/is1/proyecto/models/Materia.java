@@ -1,39 +1,26 @@
 package com.is1.proyecto.models;
 import org.javalite.activejdbc.Model;
 import org.javalite.activejdbc.annotations.Table;
-
 @Table ("materia") //relaciona esta clase con la bdd
-public class Materia extends Model{
+public class Materia extends Model {
 
-    public Integer getIdProfesor() {
-        return getInteger("id_profesor");  // Obtiene el valor de la columna 'id_materia'
+    public Integer getEncargado(){
+        return getInteger("encargado"); //retorna el valor de la columna encargado
     }
-    
-    public void setIdProfesor(Integer id_profesor) {
-        set("id_profesor", id_profesor); // establece el valor de id de materia para la columna id_materia
-    }
-
-    public Integer getIdMateria() {
-        return getInteger("id_materia");  // Obtiene el valor de la columna 'id_materia'
-    }
-    
-    public void setIdMateria(Integer id_materia) {
-        set("id_materia", id_materia); // establece el valor de id de materia para la columna id_materia
+    public void setEncargado(Integer encargado){
+        set("encargado", encargado); //le asigna encargado a la columna encargado
     }
 
-    public String getNombre(){
-        return getString("Nombre"); //retorna el valor de la columna nombre
+    public String getNombreMateria(){
+        return getString("nombreMateria"); //retorna el valor de la columna nombreMateria
     }
-
-    public void setNombre(String nombre){
-        set("departament", nombre); //le asigna nombre a la columna nombre
+    public void setNombreMateria(String nombreMateria){
+        set("nombreMateria", nombreMateria); //le asigna nombreMateria a la columna nombreMateria
     }
-
     public Integer getIdCarrera(){
-        return getInteger("id_carrera"); //retorna el valor de la columna nombre
+        return getInteger("id_carrera"); //retorna el valor de la columna id_carrera
     }
-
     public void setIdCarrera(Integer id_carrera){
-        set("id_carrera", id_carrera); //le asigna nombre a la columna nombre
+        set("id_carrera", id_carrera); //le asigna idCarrera a la columna id_carrera
     }
 }

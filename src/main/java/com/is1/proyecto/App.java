@@ -24,6 +24,7 @@ import com.is1.proyecto.models.Docente;
 import com.is1.proyecto.models.Persona;
 import com.is1.proyecto.models.Materia;
 
+
 /**
  * Clase principal de la aplicación Spark.
  * Configura las rutas, filtros y el inicio del servidor web.
@@ -318,15 +319,19 @@ public class App {
                 String dni = req.queryParams("dni");
                 String realName = req.queryParams("realName");
                 String surname = req.queryParams("surname");
+                String nombreMateria = req.queryParams("nombreMateria");
+                String id_carrera = req.queryParams("id_carrera");
                 String departament = req.queryParams("departament");
                 String correo = req.queryParams("correo");
 
-                if(dni == null || dni.isEmpty() || realName == null || realName.isEmpty() || surname == null || surname.isEmpty() || departament == null || departament.isEmpty() ||correo == null || correo.isEmpty()) {
+                if(dni == null || dni.isEmpty() || realName == null || realName.isEmpty() || surname == null || surname.isEmpty() || nombreMateria == null || nombreMateria.isEmpty() || id_carrera == null || id_carrera.isEmpty() ||departament == null || departament.isEmpty() ||correo == null || correo.isEmpty()) {
                     res.redirect("/get_docente?error=Todos los campos son obligatorios.");
                     return null;
                 }
                 Integer dniD = Integer.valueOf(dni);
-                // Verificmo si ya existe un docente con ese dni
+
+
+                // Verificmo si ya existe una persoma con ese dni y correo
                 Persona persona = Persona.findFirst("dni = ?", dniD);
                 if(persona == null){
                     persona = new Persona();
@@ -334,28 +339,29 @@ public class App {
                     persona.setRealName(realName);
                     persona.setSurname(surname);
                     persona.saveIt();
-                }else{
-                    //si la persona ya existe, actualizamos su nombre y apellido
-                    persona.setRealName(realName);
-                    persona.setSurname(surname);
-                    persona.saveIt();
                 }
 
                 //ahora  creamos el docente
-                //lo mismo con el docente verifico si existe
+                //lo mismo con el docente verifico si existe y si el correo esta registrado
                 Docente docente = Docente.findFirst("dni = ?", dniD);
-                if(docente == null){
+                if(docente == null ){
                     docente = new Docente();
                     docente.setDni(dniD);
                     docente.setDepartament(departament);
                     docente.setCorreo(correo);
                     docente.saveIt();
-                }else{
-                    //si el docente ya existe, actualizamos su departamento y correo
-                    docente.setDepartament(departament);
-                    docente.setCorreo(correo);
-                    docente.saveIt();
                 }
+
+                //ahora creamos la materia
+                Materia materia = Materia.findFirst("encargado = ?", dniD);
+                if(materia == null){
+                    materia = new Materia();
+                    materia.setEncargado(dniD);
+                }
+                materia.setNombreMateria(nombreMateria);
+                materia.setIdCarrera(Integer.valueOf(id_carrera));
+                materia.saveIt();
+
             } catch (Exception e) {
                 e.printStackTrace();
                 res.redirect("/get_docente?error=Error al registrar el docente");
@@ -372,144 +378,28 @@ public class App {
                 model.put("successMessage", success);
             }
             var docentes = Docente.findAll(); // Obtiene todos los registros de la tabla 'docente'.
+
             java.util.List<Map<String, Object>> docenteList = new java.util.ArrayList<>();
+
             for (Model m : docentes) {
                 Docente docente = (Docente) m; // casteo al modelo Docente
                 Integer dni = docente.getInteger("dni"); // obtiene el dni del docente
                 Persona persona = Persona.findFirst("dni = ?", dni); // busca la persona usando el mismo dni
+                Materia materia = Materia.findFirst("encargado = ?", dni); // busca la materia usando el mismo dni
                 Map<String, Object> docenteData = new HashMap<>();
                 docenteData.put("dni", persona.getDni());
                 docenteData.put("nombre", persona.getRealName());
                 docenteData.put("apellido", persona.getSurname());
+                docenteData.put("nombreMateria", materia.getNombreMateria());
+                docenteData.put("id_carrera", materia.getIdCarrera());
                 docenteData.put("departament", docente.getDepartament());
                 docenteData.put("correo", docente.getCorreo());
-
-            
-                        // Filtrar materias por la columna correcta
-        var materias = Materia.where("id_docente = ?", dni); // ajusta el nombre de columna si es distinto
-        java.util.List<Map<String, Object>> materiaList = new java.util.ArrayList<>();
-        try {
-            for (Model m2 : materias) {
-                Materia mat = (Materia) m2;
-                Map<String, Object> materiaData = new HashMap<>();
-                materiaData.put("id_materia", mat.getInteger("id_materia"));
-                materiaData.put("nombre", mat.getString("nombre"));
-                materiaData.put("id_carrera", mat.getInteger("id_carrera"));
-                materiaList.add(materiaData);
-            }  
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        docenteData.put("materias", materiaList);
-
-        docenteList.add(docenteData);
-    
+                docenteList.add(docenteData);
             }
             model.put("docentes", docenteList);
             return new ModelAndView(model, "post_docente.mustache");
         }, new MustacheTemplateEngine());
 
-        get("/get_docente", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            String success = req.queryParams("message");
-            String error = req.queryParams("error");
-            if(success != null && !success.isEmpty()){
-                model.put("successMessage", success);
-            }
-            if(error != null && !error.isEmpty()){
-                model.put("errorMessage", error);
-            }
-            return new ModelAndView(model, "get_docente.mustache");
-        }, new MustacheTemplateEngine());
-
-        //ahora mostrar los docentes para elegir cual cargar en la materia
-        get("/get_materia", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            String success = req.queryParams("message");
-            if(success != null && !success.isEmpty()){
-                model.put("successMessage", success);
-            }
-            var docentes = Docente.findAll(); // Obtiene todos los registros de la tabla 'docente'.
-            java.util.List<Map<String, Object>> docenteList = new java.util.ArrayList<>();
-            for (Model m : docentes) {
-                Docente docente = (Docente) m; // casteo al modelo Docente
-                Integer dni = docente.getInteger("dni"); // obtiene el dni del docente
-                Persona persona = Persona.findFirst("dni = ?", dni); // busca la persona usando el mismo dni
-                Map<String, Object> docenteData = new HashMap<>();
-                docenteData.put("dni", persona.getDni());
-                docenteData.put("nombre", persona.getRealName());
-                docenteData.put("apellido", persona.getSurname());
-                docenteList.add(docenteData);
-            }
-            model.put("docentes", docenteList);
-            return new ModelAndView(model, "get_materia.mustache");
-        }, new MustacheTemplateEngine());
-
-        post("/get_materia", (req, res) -> {
-            try {
-                String id_materiaS = req.queryParams("id_materia");
-                String nombre = req.queryParams("nombre");
-                String id_profesorS = req.queryParams("id_profesor");
-                String id_carreraS = req.queryParams("id_carrera");
-
-                Integer id_carrera = Integer.valueOf(id_carreraS);
-                Integer id_profesor = Integer.valueOf(id_profesorS);
-                Docente docente = Docente.findById(id_profesor);
-                Integer id_materia = Integer.valueOf(id_materiaS);
-
-                if (docente == null) {
-                    res.redirect("/get_materia?error=El docente seleccionado no existe.");
-                    return null;
-                }
-
-    
-                if (id_materiaS == null || id_materiaS.isEmpty()
-                    || nombre == null || nombre.isEmpty()
-                    || id_carreraS == null || id_carreraS.isEmpty()
-                    || id_profesorS == null || id_profesorS.isEmpty()) {
-    
-                    res.redirect("/get_materia?error=Todos los campos son obligatorios.");
-                    return null;
-                }
-
-
-                // Verifico si ya existe una materia con ese id y mismo profesor
-                Materia materia = Materia.findFirst("id_materia = ? AND id_profesor = ?", id_materia, id_profesor);
-                if(materia == null){
-                    materia = new Materia();
-                    materia.setIdMateria(id_materia);
-                    materia.setNombre(nombre);
-                    materia.setIdProfesor(id_profesor);
-                    materia.setIdCarrera(id_carrera);
-                    materia.saveIt();
-                }else{
-                    //si la materia ya existe, actualizamos su nombre y carrera
-                    materia.setNombre(nombre);
-                    materia.setIdCarrera(id_carrera);
-                    materia.saveIt();
-                }
-
-            } catch (Exception e) {
-                e.printStackTrace();
-                res.redirect("/get_materia?error=Error al registrar la materia");
-            }
-            res.redirect("/get_materia?message=Materia cargado exitosamente");
-            return null;
-        });
-
-        get("/get_materia", (req, res) -> {
-            Map<String, Object> model = new HashMap<>();
-            String success = req.queryParams("message");
-            String error = req.queryParams("error");
-            if(success != null && !success.isEmpty()){
-                model.put("successMessage", success);
-            }
-            if(error != null && !error.isEmpty()){
-                model.put("errorMessage", error);
-            }
-            return new ModelAndView(model, "get_materia.mustache");
-        }, new MustacheTemplateEngine());
-
-
+        
     } // Fin del método main
 } // Fin de la clase App
